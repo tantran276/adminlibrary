@@ -6,7 +6,7 @@ const CommonRoutes = () => {
     return (
         <Routes>
             <Route path="*" element="Thực tập tốt nghiệp" />
-            <Route path="books/*" element={<BookRoutes />} />
+            <Route path="book-management/*" element={<BookRoutes />} />
             <Route path="users/*" element={<UserRoutes />} />
         </Routes>
     );

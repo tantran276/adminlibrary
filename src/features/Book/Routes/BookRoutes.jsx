@@ -8,7 +8,7 @@ const BookRoutes = () => {
         <Layout>
             <Routes>
                 <Route path="copies" index element={<CopyManagement />} />
-                <Route path="*" index element={<BookManagement />} />
+                <Route path="books" index element={<BookManagement />} />
             </Routes>
         </Layout>
     );
