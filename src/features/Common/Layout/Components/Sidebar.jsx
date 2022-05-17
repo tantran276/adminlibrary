@@ -23,6 +23,11 @@ const Sidebar = () => {
                         to="/books"
                     />
                     <SidebarItem
+                        label="Quản lý đầu sách"
+                        icon={<FiBookmark />}
+                        to="/books/copies"
+                    />
+                    <SidebarItem
                         label="Quản lý người dùng"
                         icon={<BiUserCircle />}
                         to="/users"

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { bookAPI } from "../../apis";
 import Table from "../Common/Components/Table/Table";
+import { setDocumentTitle } from "../Common/Utils/helper";
 import ModifyModal from "./Components/ModifyModal";
 import TableRowActions from "./Components/TableRowActions";
 
-const BookManagement = () => {
+const CopyManagement = () => {
     const [books, setBooks] = useState([]);
     const [isShownModifyModal, setIsShownModifyModal] = useState(false);
     const [selectedToModify, setSelectedToModify] = useState({});
@@ -84,9 +85,13 @@ const BookManagement = () => {
         });
     }, []);
 
+    useEffect(() => {
+        setDocumentTitle("Copy Management");
+    }, []);
+
     return (
         <>
-            <div>Book Management</div>
+            <div>Copy Management</div>
             <Table columns={columns} dataSource={books} className="mt-6" />
             <ModifyModal
                 open={isShownModifyModal}
@@ -97,4 +102,4 @@ const BookManagement = () => {
     );
 };
 
-export default BookManagement;
+export default CopyManagement;
