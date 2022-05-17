@@ -1,27 +1,12 @@
-import axios from "axios";
+import axiosInstance from "../features/Common/Http/axiosInstance";
 
 const getBooks = async () => {
-    const config = {
-        method: "get",
-        url: "http://localhost:8080/api/books",
-        headers: {},
-    };
-
-    const response = await axios(config);
+    const response = await axiosInstance.get("api/books");
     return response.data;
 };
 
 const postBook = async (data) => {
-    const config = {
-        method: "post",
-        url: "http://localhost:8080/api/books",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        data,
-    };
-
-    const response = await axios(config);
+    const response = await axiosInstance.post("/books", data);
     return response.data;
 };
 

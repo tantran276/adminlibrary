@@ -4,9 +4,7 @@ import CommonRoutes from "./app/Routes/CommonRoutes";
 const App = () => {
     return (
         <BrowserRouter>
-            <div className="container">
-                <CommonRoutes />
-            </div>
+            <CommonRoutes />
         </BrowserRouter>
     );
 };

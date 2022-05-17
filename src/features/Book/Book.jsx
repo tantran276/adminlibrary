@@ -1,24 +1,100 @@
 import { useEffect, useState } from "react";
 import { bookAPI } from "../../apis";
+import Table from "../Common/Components/Table/Table";
+import ModifyModal from "./Components/ModifyModal";
+import TableRowActions from "./Components/TableRowActions";
 
 const BookManagement = () => {
-    const [, setBooks] = useState([]);
-    // const [isShownCreateModal, setIsShownCreateModal] = useState(false);
-    // const [isShownUpdateModal, setIsShownUpdateModal] = useState(false);
+    const [books, setBooks] = useState([]);
+    const [isShownModifyModal, setIsShownModifyModal] = useState(false);
+    const [selectedToModify, setSelectedToModify] = useState({});
 
-    // const toggleCreateModal = () => {
-    //     setIsShownCreateModal(!isShownCreateModal);
-    // };
+    const columns = [
+        {
+            title: "ID",
+            dataIndex: "id",
+        },
 
-    // const toggleUpdateModal = () => {
-    //     setIsShownUpdateModal(!isShownUpdateModal);
-    // };
+        {
+            title: "ISBN",
+            dataIndex: "isbn",
+        },
+        {
+            title: "Title",
+            dataIndex: "title",
+        },
+        {
+            title: "Authors",
+            dataIndex: "authors",
+        },
+        {
+            title: "Publisher",
+            dataIndex: "publisher",
+        },
+        {
+            title: "Category",
+            dataIndex: "category",
+        },
+        {
+            title: "Price",
+            dataIndex: "price",
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+        },
+        {
+            title: "",
+            dataIndex: "edit",
+        },
+    ];
+
+    const handleClickEditButton = (action, book) => {
+        if (!book) return;
+        if (action === "edit") {
+            setIsShownModifyModal(true);
+            setSelectedToModify(book);
+        } else if (action === "delete") {
+            // Handle Delete
+        }
+    };
 
     useEffect(() => {
-        bookAPI.getBooks().then(setBooks);
+        bookAPI.getBooks().then((data) => {
+            const standardizedData = [];
+            data.forEach((item) => {
+                standardizedData.push({
+                    id: item.id,
+                    isbn: item.isbn,
+                    title: item.title,
+                    authors: item.authors.join(", "),
+                    publisher: item.publisher,
+                    category: item.category,
+                    price: item.price,
+                    status: item?.status || "Available",
+                    edit: (
+                        <TableRowActions
+                            id={item}
+                            onClick={handleClickEditButton}
+                        />
+                    ),
+                });
+            });
+            setBooks(standardizedData);
+        });
     }, []);
 
-    return <>Book Management</>;
+    return (
+        <>
+            <div>Book Management</div>
+            <Table columns={columns} dataSource={books} className="mt-6" />
+            <ModifyModal
+                open={isShownModifyModal}
+                book={selectedToModify}
+                onClose={setIsShownModifyModal}
+            />
+        </>
+    );
 };
 
 export default BookManagement;
