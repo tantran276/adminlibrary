@@ -6,7 +6,8 @@
     "extends": [
         "plugin:react/recommended",
         "airbnb",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:security/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -16,7 +17,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": ["react", "@typescript-eslint", "prettier"],
+    "plugins": ["react", "@typescript-eslint", "prettier", "security"],
     "rules": {
         "react/react-in-jsx-scope": "off",
         "react/function-component-definition": [
@@ -25,6 +26,7 @@
                 "namedComponents": "arrow-function",
                 "unnamedComponents": "arrow-function"
             }
-        ]
+        ],
+        "react/jsx-props-no-spreading": "off"
     }
 }

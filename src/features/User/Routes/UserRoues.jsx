@@ -1,15 +1,15 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "../../Common/Layout/Layout";
-import BookManagement from "../Book";
+import UserManagement from "../UserManagement";
 
-const BookRoutes = () => {
+const UserRoutes = () => {
     return (
         <Layout>
             <Routes>
-                <Route path="*" index element={<BookManagement />} />
+                <Route path="*" index element={<UserManagement />} />
             </Routes>
         </Layout>
     );
 };
 
-export default BookRoutes;
+export default UserRoutes;
