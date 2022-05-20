@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import axiosInstance from "../features/Common/Utils/axiosInstance";
 
 const getBooks = async (page, perPage) => {
@@ -10,9 +11,22 @@ const getBooks = async (page, perPage) => {
     return response.data;
 };
 
-const postBook = async (data) => {
-    const response = await axiosInstance.post("/books", data);
-    return response.data;
+const createBook = async (data) => {
+    await axiosInstance.post("api/books", {
+        ...data,
+        isbn: String(data.isbn),
+        createDate: dayjs().format("YYYY-MM-DD"),
+    });
+    return data;
 };
 
-export { getBooks, postBook };
+const updateBook = async (data) => {
+    await axiosInstance.put("api/books", {
+        ...data,
+        isbn: String(data.isbn),
+        createDate: dayjs().format("YYYY-MM-DD"),
+    });
+    return data;
+};
+
+export { getBooks, createBook, updateBook };

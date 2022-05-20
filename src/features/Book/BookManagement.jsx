@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { bookAPI } from "../../apis";
+import Button from "../Common/Components/Button/Button";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helper";
 import ModifyModal from "./Components/ModifyModal";
@@ -64,32 +65,46 @@ const BookManagement = () => {
     };
 
     const getBookList = useCallback(() => {
-        bookAPI
-            .getBooks(currentPage, perPage)
-            .then(({ content, totalPages: responseTotalPages }) => {
-                const standardizedData = [];
-                content.forEach((item) => {
-                    standardizedData.push({
-                        id: item.id,
-                        isbn: item.isbn,
-                        title: item.title,
-                        authors: item.authors.join(", "),
-                        publisher: item.publisher,
-                        category: item.category,
-                        price: item.price,
-                        status: item?.status || "Available",
-                        edit: (
-                            <TableRowActions
-                                id={item}
-                                onClick={handleClickEditButton}
-                            />
-                        ),
-                    });
+        bookAPI.getBooks(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
+            const standardizedData = [];
+            content.forEach((item) => {
+                standardizedData.push({
+                    id: item.id,
+                    isbn: item.isbn,
+                    title: item.title,
+                    authors: item.authors.join(", "),
+                    publisher: item.publisher,
+                    category: item.category,
+                    price: item.price,
+                    status: item?.status || "Available",
+                    edit: <TableRowActions id={item} onClick={handleClickEditButton} />,
                 });
-                setBooks(standardizedData);
-                setTotalPages(responseTotalPages);
             });
+            setBooks(standardizedData);
+            setTotalPages(responseTotalPages);
+        });
     }, [currentPage, perPage]);
+
+    const handleSubmitModifyForm = (action, data, onSuccess) => {
+        if (action === "edit") {
+            bookAPI.updateBook(data).then(() => {
+                getBookList();
+                setIsShownModifyModal(false);
+                onSuccess();
+            });
+            return;
+        }
+        bookAPI.createBook(data).then(() => {
+            onSuccess();
+            setIsShownModifyModal(false);
+            getBookList();
+        });
+    };
+
+    const handleClickAddButton = () => {
+        setSelectedToModify(null);
+        setIsShownModifyModal(true);
+    };
 
     useEffect(() => {
         setDocumentTitle("Book Management");
@@ -105,7 +120,10 @@ const BookManagement = () => {
 
     return (
         <>
-            <div>Book Management</div>
+            <div className="flex items-center justify-between">
+                <div>Book Management</div>
+                <Button onClick={handleClickAddButton}>Thêm sách mới</Button>
+            </div>
             <Table
                 columns={columns}
                 dataSource={books}
@@ -120,6 +138,7 @@ const BookManagement = () => {
                 open={isShownModifyModal}
                 book={selectedToModify}
                 onClose={setIsShownModifyModal}
+                onSubmit={handleSubmitModifyForm}
             />
         </>
     );
