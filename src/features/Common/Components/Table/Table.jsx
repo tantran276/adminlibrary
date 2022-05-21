@@ -3,20 +3,11 @@ import { twMerge } from "tailwind-merge";
 import Pagination from "../Pagination/Pagination";
 import TableRow from "./TableRow";
 
-const Table = ({
-    columns,
-    dataSource,
-    className,
-    pagination,
-    ...otherProps
-}) => {
+const Table = ({ columns, dataSource, className, pagination, ...otherProps }) => {
     return (
         <>
             <div
-                className={twMerge(
-                    "relative overflow-x-auto border-2 border-gray-100 sm:rounded-lg w-full",
-                    className
-                )}
+                className={twMerge("relative overflow-x-auto border-2 border-gray-100 sm:rounded-lg w-full", className)}
                 {...otherProps}
             >
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

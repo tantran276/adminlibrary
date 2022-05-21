@@ -13,9 +13,7 @@ const PaginationButton = ({ currentPage, incrementValue, onChangePage }) => {
                 role="button"
                 tabIndex={0}
             >
-                <span className="sr-only">
-                    {incrementValue === 1 ? "Next" : "Previous"}
-                </span>
+                <span className="sr-only">{incrementValue === 1 ? "Next" : "Previous"}</span>
                 <svg
                     fill="currentColor"
                     viewBox="0 0 20 20"
