@@ -17,11 +17,11 @@ const TableRowActions = ({ id, onClick }) => {
             </div>
             <div
                 className="text-red-500 cursor-pointer font-semibold"
-                onClick={() => handleClick("cancel", id)}
+                onClick={() => handleClick("return", id)}
                 role="button"
                 tabIndex={0}
             >
-                Cancel
+                Return
             </div>
         </div>
     );

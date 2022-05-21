@@ -20,12 +20,12 @@ const Sidebar = () => {
                     <SidebarItem
                         label="Quản lý sách"
                         icon={<FiBookmark />}
-                        to="/books"
+                        to="/book-management/books"
                     />
                     <SidebarItem
                         label="Quản lý đầu sách"
                         icon={<FiBookmark />}
-                        to="/books/copies"
+                        to="/book-management/copies"
                     />
                     <SidebarItem
                         label="Quản lý người dùng"

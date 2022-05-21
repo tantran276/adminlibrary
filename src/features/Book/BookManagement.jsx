@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { bookAPI } from "../../apis";
+import Button from "../Common/Components/Button/Button";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helper";
 import ModifyModal from "./Components/ModifyModal";
@@ -9,6 +10,9 @@ const BookManagement = () => {
     const [books, setBooks] = useState([]);
     const [isShownModifyModal, setIsShownModifyModal] = useState(false);
     const [selectedToModify, setSelectedToModify] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [perPage] = useState(10);
 
     const columns = [
         {
@@ -60,14 +64,10 @@ const BookManagement = () => {
         }
     };
 
-    useEffect(() => {
-        setDocumentTitle("Book Management");
-    }, []);
-
-    useEffect(() => {
-        bookAPI.getBooks().then((data) => {
+    const getBookList = useCallback(() => {
+        bookAPI.getBooks(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
             const standardizedData = [];
-            data.forEach((item) => {
+            content.forEach((item) => {
                 standardizedData.push({
                     id: item.id,
                     isbn: item.isbn,
@@ -77,26 +77,68 @@ const BookManagement = () => {
                     category: item.category,
                     price: item.price,
                     status: item?.status || "Available",
-                    edit: (
-                        <TableRowActions
-                            id={item}
-                            onClick={handleClickEditButton}
-                        />
-                    ),
+                    edit: <TableRowActions id={item} onClick={handleClickEditButton} />,
                 });
             });
             setBooks(standardizedData);
+            setTotalPages(responseTotalPages);
         });
+    }, [currentPage, perPage]);
+
+    const handleSubmitModifyForm = (action, data, onSuccess) => {
+        if (action === "edit") {
+            bookAPI.updateBook(data).then(() => {
+                getBookList();
+                setIsShownModifyModal(false);
+                onSuccess();
+            });
+            return;
+        }
+        bookAPI.createBook(data).then(() => {
+            onSuccess();
+            setIsShownModifyModal(false);
+            getBookList();
+        });
+    };
+
+    const handleClickAddButton = () => {
+        setSelectedToModify(null);
+        setIsShownModifyModal(true);
+    };
+
+    useEffect(() => {
+        setDocumentTitle("Book Management");
     }, []);
+
+    useEffect(() => {
+        getBookList();
+    }, []);
+
+    useEffect(() => {
+        getBookList();
+    }, [currentPage]);
 
     return (
         <>
-            <div>Book Management</div>
-            <Table columns={columns} dataSource={books} className="mt-6" />
+            <div className="flex items-center justify-between">
+                <div>Book Management</div>
+                <Button onClick={handleClickAddButton}>Thêm sách mới</Button>
+            </div>
+            <Table
+                columns={columns}
+                dataSource={books}
+                className="mt-6"
+                pagination={{
+                    currentPage,
+                    totalPages,
+                    onChangePage: (page) => setCurrentPage(page),
+                }}
+            />
             <ModifyModal
                 open={isShownModifyModal}
                 book={selectedToModify}
                 onClose={setIsShownModifyModal}
+                onSubmit={handleSubmitModifyForm}
             />
         </>
     );

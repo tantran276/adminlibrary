@@ -5,8 +5,8 @@ import Button from "../../Common/Components/Button/Button";
 import Input from "../../Common/Components/Input/Input";
 import Modal from "../../Common/Components/Modal/Modal";
 
-const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
-    const [book, setBook] = useState({});
+const ModifyModal = ({ user: userData, onSubmit, onClose, ...otherProps }) => {
+    const [user, setUser] = useState({});
     const [formValues, setFormValues] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -22,7 +22,7 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
     };
 
     const handleSubmitForm = (e) => {
-        const submitAction = bookData ? "edit" : "add";
+        const submitAction = userData ? "edit" : "add";
         const submitData = Object.keys(formValues).reduce((acc, key) => {
             acc[String(key)] = formValues[String(key)].value;
             return acc;
@@ -53,22 +53,22 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
     // }, [formValues]);
 
     useEffect(() => {
-        if (bookData) {
-            setBook(bookData);
+        if (userData) {
+            setUser(userData);
         }
-        setBook({});
-    }, [bookData]);
-
+        setUser({});
+    }, [userData]);
+    console.log(user);
     return (
         <Modal className="p-10 pt-6 pb-10" {...otherProps}>
             <div className="flex items-center justify-between pb-6 border-b-2 border-gray-100">
                 <div className="font-semibold">
-                    {book.id ? (
+                    {user.id ? (
                         <div>
-                            Sửa sách <span>#{book.id}</span>
+                            Sửa tai khoan <span>#{user.id}</span>
                         </div>
                     ) : (
-                        "Thêm sách"
+                        "Thêm tai khoan"
                     )}
                 </div>
                 <div
@@ -82,77 +82,45 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
             </div>
             <form className="grid grid-cols-2 mt-8 gap-x-8" onSubmit={handleSubmitForm}>
                 <Input
-                    label="ISBN"
+                    label="First Name"
                     containerClassName="mb-6"
-                    value={bookData?.isbn}
-                    name="isbn"
+                    value={userData?.firstName}
+                    name="firstName"
                     required
                     onChange={handleChangeInput}
                 />
                 <Input
-                    label="Title"
+                    label="Last Name"
                     containerClassName="mb-6"
-                    value={bookData?.title}
-                    name="title"
+                    value={userData?.lastName}
+                    name="lastName"
                     required
                     onChange={handleChangeInput}
                 />
                 <Input
-                    label="Tags"
-                    containerClassName="mb-6 col-span-2"
-                    value={bookData?.tags}
-                    onChange={handleChangeInput}
-                    name="tags"
-                    multiple
-                />
-                <Input
-                    label="Authors"
-                    containerClassName="mb-6 col-span-2"
-                    value={bookData?.authors}
-                    onChange={handleChangeInput}
-                    name="authors"
-                    multiple
-                />
-                <Input
-                    label="Publisher"
+                    label="Email"
                     containerClassName="mb-6"
-                    value={bookData?.publisher}
-                    name="publisher"
-                    required
+                    value={userData?.email}
                     onChange={handleChangeInput}
-                />
-                <Input
-                    label="Category"
-                    containerClassName="mb-6"
-                    value={bookData?.category}
-                    name="category"
-                    required
-                    onChange={handleChangeInput}
-                />
-                <Input
-                    label="Content"
-                    containerClassName="mb-6"
-                    value={bookData?.content}
-                    onChange={handleChangeInput}
-                    name="content"
-                    required
-                />
-                <Input
-                    label="Price"
-                    containerClassName="mb-6"
-                    value={bookData?.price}
-                    onChange={handleChangeInput}
-                    name="price"
+                    name="email"
                     required
                 />
                 <Input
                     type="date"
-                    label="Publish Date"
+                    label="Date Of Birth"
                     containerClassName="mb-6 col-span-2"
-                    value={bookData?.createDate}
-                    onChange={handleChangeInput}
-                    name="createDate"
+                    value={userData?.publisher}
+                    name="dateOfBirth"
                     required
+                    onChange={handleChangeInput}
+                />
+                <Input
+                    label="Roles"
+                    containerClassName="mb-6"
+                    value={userData?.roles}
+                    name="roles"
+                    onChange={handleChangeInput}
+                    multiple
                 />
                 <Button type="submit" className="w-full col-span-2 mt-2" disabled={isSubmitting && false}>
                     Xác nhận
@@ -163,7 +131,7 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
 };
 
 ModifyModal.propTypes = {
-    book: PropTypes.object,
+    user: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
 };

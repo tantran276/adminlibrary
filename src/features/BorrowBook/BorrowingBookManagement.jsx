@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { reservationAPI } from "../../apis";
+import { borrowBookAPI } from "../../apis";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helper";
 import TableRowActions from "./Components/TableRowActions";
 
-const ReservationManagement = () => {
-    const [reservations, setReservations] = useState([]);
+const BorrowingBookManagement = () => {
+    const [borrowBooks, setBorrowBooks] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [perPage] = useState(10);
@@ -15,22 +15,29 @@ const ReservationManagement = () => {
             title: "ID",
             dataIndex: "id",
         },
-
         {
             title: "Username",
             dataIndex: "username",
         },
         {
-            title: "Book",
-            dataIndex: "book",
+            title: "Title",
+            dataIndex: "title",
         },
         {
-            title: "Reservation Date",
-            dataIndex: "reservationDate",
+            title: "Borrow Date",
+            dataIndex: "borrowDate",
         },
         {
             title: "Expiration Date",
             dataIndex: "expirationDate",
+        },
+        {
+            title: "Return Date",
+            dataIndex: "returnDate",
+        },
+        {
+            title: "Penalty",
+            dataIndex: "penatly",
         },
         {
             title: "Status",
@@ -42,30 +49,32 @@ const ReservationManagement = () => {
         },
     ];
 
-    const handleClickEditButton = (action, reservation) => {
-        if (!reservation) return;
+    const handleClickEditButton = (action, borrowBook) => {
+        if (!borrowBook) return;
         if (action === "renewal") {
-            reservationAPI.renewalReservation(reservation).then(() => {});
-        } else if (action === "cancel") {
-            reservationAPI.cancelReservation(reservation).then(() => {});
+            borrowBookAPI.renewalBorrowBook(borrowBook).then(() => {});
+        } else if (action === "return") {
+            borrowBookAPI.returnBorrowBook(borrowBook).then(() => {});
         }
     };
 
-    const getReservingList = useCallback(() => {
-        reservationAPI.getAllReserving(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
+    const getBorrowingBookList = useCallback(() => {
+        borrowBookAPI.getAllBorrowingBook(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
             const standardizedData = [];
             content.forEach((item) => {
                 standardizedData.push({
                     id: item.id,
                     username: item.username,
-                    book: item.book,
-                    reservationDate: item.reservationDate,
+                    title: item.title,
+                    borrowBookDate: item.borrowDate,
                     expirationDate: item.expirationDate,
+                    returnDate: item.returnDate,
+                    penalty: item.penalty,
                     status: item.status,
                     edit: <TableRowActions id={item} onClick={handleClickEditButton} />,
                 });
             });
-            setReservations(standardizedData);
+            setBorrowBooks(standardizedData);
             setTotalPages(responseTotalPages);
         });
     }, [currentPage, perPage]);
@@ -75,7 +84,7 @@ const ReservationManagement = () => {
     }, []);
 
     useEffect(() => {
-        getReservingList();
+        getBorrowingBookList();
     }, []);
 
     return (
@@ -83,7 +92,7 @@ const ReservationManagement = () => {
             <div>Reserving Management</div>
             <Table
                 columns={columns}
-                dataSource={reservations}
+                dataSource={borrowBooks}
                 className="mt-6"
                 pagination={{
                     currentPage,
@@ -95,4 +104,4 @@ const ReservationManagement = () => {
     );
 };
 
-export default ReservationManagement;
+export default BorrowingBookManagement;
