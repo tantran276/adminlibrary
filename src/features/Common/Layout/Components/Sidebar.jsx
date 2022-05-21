@@ -32,6 +32,16 @@ const Sidebar = () => {
                         icon={<BiUserCircle />}
                         to="/users"
                     />
+                    <SidebarItem
+                        label="Quản lý dang ky muon sach"
+                        icon={<BiUserCircle />}
+                        to="/books/reservations"
+                    />
+                    <SidebarItem
+                        label="Quản lý dang ky muon sach"
+                        icon={<BiUserCircle />}
+                        to="/books/borrowbooks"
+                    />
                 </SidebarMenu>
             </div>
         </aside>

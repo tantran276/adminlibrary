@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { userAPI } from "../../apis";
+import { reservationAPI } from "../../apis";
 import Table from "../Common/Components/Table/Table";
-import TableRowActions from "./Components/TableRowActions";
 import { setDocumentTitle } from "../Common/Utils/helper";
+import TableRowActions from "./Components/TableRowActions";
 
-const UserManagement = () => {
-    const [users, setUsers] = useState([]);
+const ReservationManagement = () => {
+    const [reservations, setReservations] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [perPage] = useState(10);
@@ -15,33 +15,22 @@ const UserManagement = () => {
             title: "ID",
             dataIndex: "id",
         },
-        {
-            title: "First Name",
-            dataIndex: "firstName",
-        },
-        {
-            title: "Last Name",
-            dataIndex: "lastName",
-        },
+
         {
             title: "Username",
             dataIndex: "username",
         },
         {
-            title: "Email",
-            dataIndex: "email",
+            title: "Book",
+            dataIndex: "book",
         },
         {
-            title: "Date Of Birth",
-            dataIndex: "dateOfBirth",
+            title: "Reservation Date",
+            dataIndex: "reservationDate",
         },
         {
-            title: "Roles",
-            dataIndex: "roles",
-        },
-        {
-            title: "Create Date",
-            dataIndex: "createDate",
+            title: "Expiration Date",
+            dataIndex: "expirationDate",
         },
         {
             title: "Status",
@@ -53,55 +42,48 @@ const UserManagement = () => {
         },
     ];
 
-    const handleClickEditButton = (action, user) => {
-        if (!user) return;
-        if (action === "delete") {
-            userAPI.deleteUser(user).then(() => {});
+    const handleClickEditButton = (action, reservation) => {
+        if (!reservation) return;
+        if (action === "renewal") {
+            reservationAPI.renewalReservation(reservation).then(() => {});
+        } else if (action === "cancel") {
+            reservationAPI.cancelReservation(reservation).then(() => {});
         }
     };
 
-    const getUserList = useCallback(() => {
-        userAPI.getUsers(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
+    const getReservingList = useCallback(() => {
+        reservationAPI.getAllReserving(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
             const standardizedData = [];
             content.forEach((item) => {
                 standardizedData.push({
                     id: item.id,
-                    firstName: item.firstName,
-                    lastName: item.lastName,
                     username: item.username,
-                    email: item.email,
-                    dateOfBirth: item.dateOfBirth,
-                    roles: item.roles.join(", "),
-                    createDate: item.createDate,
+                    book: item.book,
+                    reservationDate: item.reservationDate,
+                    expirationDate: item.expirationDate,
                     status: item.status,
                     edit: <TableRowActions id={item} onClick={handleClickEditButton} />,
                 });
             });
-            setUsers(standardizedData);
+            setReservations(standardizedData);
             setTotalPages(responseTotalPages);
         });
     }, [currentPage, perPage]);
 
     useEffect(() => {
-        setDocumentTitle("User Management");
+        setDocumentTitle("Book Management");
     }, []);
 
     useEffect(() => {
-        getUserList();
+        getReservingList();
     }, []);
-
-    useEffect(() => {
-        getUserList();
-    }, [currentPage]);
 
     return (
         <>
-            <div className="flex items-center justify-between">
-                <div>User Management</div>
-            </div>
+            <div>Reserving Management</div>
             <Table
                 columns={columns}
-                dataSource={users}
+                dataSource={reservations}
                 className="mt-6"
                 pagination={{
                     currentPage,
@@ -113,4 +95,4 @@ const UserManagement = () => {
     );
 };
 
-export default UserManagement;
+export default ReservationManagement;

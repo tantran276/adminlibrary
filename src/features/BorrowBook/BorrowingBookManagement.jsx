@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { userAPI } from "../../apis";
+import { borrowBookAPI } from "../../apis";
 import Table from "../Common/Components/Table/Table";
-import TableRowActions from "./Components/TableRowActions";
 import { setDocumentTitle } from "../Common/Utils/helper";
+import TableRowActions from "./Components/TableRowActions";
 
-const UserManagement = () => {
-    const [users, setUsers] = useState([]);
+const BorrowingBookManagement = () => {
+    const [borrowBooks, setBorrowBooks] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [perPage] = useState(10);
@@ -16,32 +16,28 @@ const UserManagement = () => {
             dataIndex: "id",
         },
         {
-            title: "First Name",
-            dataIndex: "firstName",
-        },
-        {
-            title: "Last Name",
-            dataIndex: "lastName",
-        },
-        {
             title: "Username",
             dataIndex: "username",
         },
         {
-            title: "Email",
-            dataIndex: "email",
+            title: "Title",
+            dataIndex: "title",
         },
         {
-            title: "Date Of Birth",
-            dataIndex: "dateOfBirth",
+            title: "Borrow Date",
+            dataIndex: "borrowDate",
         },
         {
-            title: "Roles",
-            dataIndex: "roles",
+            title: "Expiration Date",
+            dataIndex: "expirationDate",
         },
         {
-            title: "Create Date",
-            dataIndex: "createDate",
+            title: "Return Date",
+            dataIndex: "returnDate",
+        },
+        {
+            title: "Penalty",
+            dataIndex: "penatly",
         },
         {
             title: "Status",
@@ -53,55 +49,50 @@ const UserManagement = () => {
         },
     ];
 
-    const handleClickEditButton = (action, user) => {
-        if (!user) return;
-        if (action === "delete") {
-            userAPI.deleteUser(user).then(() => {});
+    const handleClickEditButton = (action, borrowBook) => {
+        if (!borrowBook) return;
+        if (action === "renewal") {
+            borrowBookAPI.renewalBorrowBook(borrowBook).then(() => {});
+        } else if (action === "return") {
+            borrowBookAPI.returnBorrowBook(borrowBook).then(() => {});
         }
     };
 
-    const getUserList = useCallback(() => {
-        userAPI.getUsers(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
+    const getBorrowingBookList = useCallback(() => {
+        borrowBookAPI.getAllBorrowingBook(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
             const standardizedData = [];
             content.forEach((item) => {
                 standardizedData.push({
                     id: item.id,
-                    firstName: item.firstName,
-                    lastName: item.lastName,
                     username: item.username,
-                    email: item.email,
-                    dateOfBirth: item.dateOfBirth,
-                    roles: item.roles.join(", "),
-                    createDate: item.createDate,
+                    title: item.title,
+                    borrowBookDate: item.borrowDate,
+                    expirationDate: item.expirationDate,
+                    returnDate: item.returnDate,
+                    penalty: item.penalty,
                     status: item.status,
                     edit: <TableRowActions id={item} onClick={handleClickEditButton} />,
                 });
             });
-            setUsers(standardizedData);
+            setBorrowBooks(standardizedData);
             setTotalPages(responseTotalPages);
         });
     }, [currentPage, perPage]);
 
     useEffect(() => {
-        setDocumentTitle("User Management");
+        setDocumentTitle("Book Management");
     }, []);
 
     useEffect(() => {
-        getUserList();
+        getBorrowingBookList();
     }, []);
-
-    useEffect(() => {
-        getUserList();
-    }, [currentPage]);
 
     return (
         <>
-            <div className="flex items-center justify-between">
-                <div>User Management</div>
-            </div>
+            <div>Reserving Management</div>
             <Table
                 columns={columns}
-                dataSource={users}
+                dataSource={borrowBooks}
                 className="mt-6"
                 pagination={{
                     currentPage,
@@ -113,4 +104,4 @@ const UserManagement = () => {
     );
 };
 
-export default UserManagement;
+export default BorrowingBookManagement;

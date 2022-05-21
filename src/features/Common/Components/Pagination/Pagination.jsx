@@ -17,10 +17,7 @@ const Pagination = ({ totalPages, currentPage, onChangePage }) => {
     };
 
     return (
-        <nav
-            className="flex justify-center mt-8"
-            aria-label="Page navigation example"
-        >
+        <nav className="flex justify-center mt-8" aria-label="Page navigation example">
             <ul className="inline-flex items-center -space-x-px">
                 <PaginationButton
                     currentPage={currentPage}
@@ -34,18 +31,14 @@ const Pagination = ({ totalPages, currentPage, onChangePage }) => {
                             key={pageNumber}
                             pageNumber={pageNumber}
                             activated={pageNumber === currentPage}
-                            onClick={() =>
-                                handleClickPaginationItem(pageNumber)
-                            }
+                            onClick={() => handleClickPaginationItem(pageNumber)}
                         />
                     );
                 })}
                 <li>
                     <div
                         className="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                        onClick={() =>
-                            handleClickPaginationItem(currentPage + 1)
-                        }
+                        onClick={() => handleClickPaginationItem(currentPage + 1)}
                         role="button"
                         tabIndex={0}
                     >
