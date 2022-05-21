@@ -103,3 +103,9 @@
 // };
 
 // export default CopyManagement;
+
+const CopyManagement = () => {
+    return <h1>Copy Management</h1>;
+};
+
+export default CopyManagement;
