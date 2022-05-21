@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "../../Common/Layout/Layout";
 import BookManagement from "../BookManagement";
+import BorrowBookManagement from "../BorrowBookManagement";
 import CopyManagement from "../CopyManagement";
-import ReservationManagement from "../../Reservation/ReservationManagement";
-import BorrowBookManagement from "../../BorrowBook/BorrowBookManagement";
+import ReservationManagement from "../ReservationManagement";
 
 const BookRoutes = () => {
     return (
