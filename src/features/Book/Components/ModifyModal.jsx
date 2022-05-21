@@ -103,6 +103,7 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
                     value={bookData?.tags}
                     onChange={handleChangeInput}
                     name="tags"
+                    required
                     multiple
                 />
                 <Input
@@ -111,6 +112,7 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
                     value={bookData?.authors}
                     onChange={handleChangeInput}
                     name="authors"
+                    required
                     multiple
                 />
                 <Input

@@ -11,6 +11,7 @@ const Input = ({
     type = "text",
     icon,
     multiple,
+    required,
     onChange,
     onBlur,
     ...otherProps
@@ -94,6 +95,7 @@ const Input = ({
                     )}
                     placeholder={placeholder || label}
                     value={tmpInputValue}
+                    required={required && (multiple ? inputValues.length > 0 : tmpInputValue.length > 0)}
                     onChange={handleChangeInput}
                     onKeyPress={handlePressEnter}
                     onBlur={handleBlurInput}
@@ -132,6 +134,7 @@ Input.propTypes = {
     type: PropTypes.string,
     icon: PropTypes.node,
     multiple: PropTypes.bool,
+    required: PropTypes.bool,
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
 };
