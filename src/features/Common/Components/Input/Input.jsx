@@ -18,10 +18,14 @@ const Input = ({
 }) => {
     const [inputValues, setInputValues] = useState([]);
     const [tmpInputValue, setTmpInputValue] = useState("");
+    const [isRequired, setIsRequired] = useState(required);
 
     const inputRef = useRef(null);
 
     const handlePressEnter = (e) => {
+        if (!multiple) {
+            return;
+        }
         if (e.charCode === 13) {
             e.preventDefault();
             setInputValues([...inputValues, tmpInputValue]);
@@ -74,7 +78,14 @@ const Input = ({
 
     useEffect(() => {
         onChange({ target: inputRef.current }, multiple ? inputValues : tmpInputValue);
+        setIsRequired(false);
     }, [inputValues]);
+
+    useEffect(() => {
+        if (!multiple) {
+            setIsRequired(required);
+        }
+    }, [required]);
 
     return (
         <div className={containerClassName}>
@@ -95,7 +106,7 @@ const Input = ({
                     )}
                     placeholder={placeholder || label}
                     value={tmpInputValue}
-                    required={required && (multiple ? inputValues.length > 0 : tmpInputValue.length > 0)}
+                    required={isRequired}
                     onChange={handleChangeInput}
                     onKeyPress={handlePressEnter}
                     onBlur={handleBlurInput}

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { userAPI } from "../../apis";
 import Table from "../Common/Components/Table/Table";
+import { setDocumentTitle } from "../Common/Utils/helpers";
 import TableRowActions from "./Components/TableRowActions";
-import { setDocumentTitle } from "../Common/Utils/helper";
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);

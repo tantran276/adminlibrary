@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { bookAPI } from "../../apis";
 import Button from "../Common/Components/Button/Button";
 import Table from "../Common/Components/Table/Table";
-import { setDocumentTitle } from "../Common/Utils/helper";
+import { setDocumentTitle } from "../Common/Utils/helpers";
 import ModifyModal from "./Components/ModifyModal";
 import TableRowActions from "./Components/TableRowActions";
 

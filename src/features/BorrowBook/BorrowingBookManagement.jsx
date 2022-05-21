@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { borrowBookAPI } from "../../apis";
 import Table from "../Common/Components/Table/Table";
-import { setDocumentTitle } from "../Common/Utils/helper";
+import { setDocumentTitle } from "../Common/Utils/helpers";
 import TableRowActions from "./Components/TableRowActions";
 
 const BorrowingBookManagement = () => {
