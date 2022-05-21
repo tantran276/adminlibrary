@@ -11,11 +11,11 @@ const Sidebar = () => {
                 <div className="p-8 mx-4 font-semibold text-center bg-gray-100 rounded-lg">Logo</div>
                 <SidebarMenu>
                     <SidebarItem label="Dashboard" icon={<RiDashboardLine />} to="/" />
-                    <SidebarItem label="Quản lý sách" icon={<FiBookmark />} to="/book-management/books" />
-                    <SidebarItem label="Quản lý đầu sách" icon={<FiBookmark />} to="/book-management/copies" />
+                    <SidebarItem label="Quản lý sách" icon={<FiBookmark />} to="/books/copies" />
+                    <SidebarItem label="Quản lý đầu sách" icon={<FiBookmark />} to="/books/books" />
                     <SidebarItem label="Quản lý người dùng" icon={<BiUserCircle />} to="/users" />
-                    <SidebarItem label="Quản lý dang ky muon sach" icon={<BiUserCircle />} to="/books/reservations" />
-                    <SidebarItem label="Quản lý dang ky muon sach" icon={<BiUserCircle />} to="/books/borrowbooks" />
+                    <SidebarItem label="Quản lý  mượn sách" icon={<BiUserCircle />} to="/books/reservations" />
+                    <SidebarItem label="Quản lý đăng ký mượn sách" icon={<BiUserCircle />} to="/books/borrows" />
                 </SidebarMenu>
             </div>
         </aside>

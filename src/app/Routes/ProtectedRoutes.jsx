@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import BookRoutes from "../../features/Book/Routes/BookRoutes";
-import BorrowBookRouters from "../../features/BorrowBook/Routes/BorrowBookRouters";
-import ReservationRouters from "../../features/Reservation/Routes/ReservationRouters";
 import UserRoutes from "../../features/User/Routes/UserRoues";
 
 import { authAPI } from "../../apis";
@@ -44,10 +42,8 @@ const ProtectedRoutes = () => {
                     {isAuthenticated ? (
                         <Routes>
                             <Route path="/" element="Thực tập tốt nghiệp" />
-                            <Route path="book-management/*" element={<BookRoutes />} />
+                            <Route path="books/*" element={<BookRoutes />} />
                             <Route path="users/*" element={<UserRoutes />} />
-                            <Route path="reservations/*" element={<ReservationRouters />} />
-                            <Route path="borrowbooks/*" element={<BorrowBookRouters />} />
                         </Routes>
                     ) : (
                         <Navigate to={LOGIN_PAGE_PATH} />
