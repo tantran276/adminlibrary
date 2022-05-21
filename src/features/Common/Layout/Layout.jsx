@@ -5,7 +5,7 @@ const Layout = ({ children }) => {
     return (
         <div className="">
             <Sidebar />
-            <div className="w-[calc(100% - 154px)] ml-64 p-6">{children}</div>
+            <div className="w-[calc(100% - 288px)] ml-72 p-6">{children}</div>
         </div>
     );
 };

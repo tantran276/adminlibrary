@@ -6,9 +6,9 @@ import SidebarMenu from "./SidebarMenu";
 
 const Sidebar = () => {
     return (
-        <aside className="w-64 fixed z-50 top-0 left-0 bottom-0">
-            <div className="overflow-y-auto py-4 dark:bg-gray-800 h-full bg-white border-r-2 border-gray-100 shadow-lg shadow-gray-100">
-                <div className="mx-4 p-8 font-semibold bg-gray-100 rounded-lg text-center">Logo</div>
+        <aside className="fixed top-0 bottom-0 left-0 z-50 w-72">
+            <div className="h-full py-4 overflow-y-auto bg-white border-r-2 border-gray-100 shadow-lg dark:bg-gray-800 shadow-gray-100">
+                <div className="p-8 mx-4 font-semibold text-center bg-gray-100 rounded-lg">Logo</div>
                 <SidebarMenu>
                     <SidebarItem label="Dashboard" icon={<RiDashboardLine />} to="/" />
                     <SidebarItem label="Quản lý sách" icon={<FiBookmark />} to="/book-management/books" />
