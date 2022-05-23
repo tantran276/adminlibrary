@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { reservationAPI } from "../../apis";
+import { reservationAPI } from "../../services";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helpers";
 import TableRowActions from "./Components/TableRowActions";

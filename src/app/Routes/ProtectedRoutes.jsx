@@ -4,11 +4,11 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import BookRoutes from "../../features/Book/Routes/BookRoutes";
 import UserRoutes from "../../features/User/Routes/UserRoues";
 
-import { authAPI } from "../../apis";
 import LoadingOverlay from "../../features/Common/Components/Loading/LoadingOverlay";
 import { LOGIN_PAGE_PATH } from "../../features/Common/Constants/URLs";
 import { setUser } from "../../features/Common/Slices/userSlice";
 import { redirectTo } from "../../features/Common/Utils/helpers";
+import { authAPI } from "../../services";
 
 const ProtectedRoutes = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);

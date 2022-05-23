@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { borrowBookAPI } from "../../apis";
+import { borrowBookAPI } from "../../services";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helpers";
 

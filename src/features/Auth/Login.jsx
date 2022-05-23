@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { authAPI } from "../../apis";
+import { authAPI } from "../../services";
 import Alert from "../Common/Components/Alert/Alert";
 import Button from "../Common/Components/Button/Button";
 import Input from "../Common/Components/Input/Input";
