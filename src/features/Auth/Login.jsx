@@ -39,7 +39,7 @@ const Login = () => {
             })
             .catch((error) => {
                 setIsSubmitting(false);
-                setErrorMessage(error?.response.message || "Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.");
+                setErrorMessage(error?.response?.message || "Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.");
             });
     };
 
