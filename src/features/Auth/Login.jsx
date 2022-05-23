@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { authAPI } from "../../apis";
+import Alert from "../Common/Components/Alert/Alert";
 import Button from "../Common/Components/Button/Button";
 import Input from "../Common/Components/Input/Input";
 import { setUser } from "../Common/Slices/userSlice";
@@ -11,6 +12,7 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const dispatch = useDispatch();
     const [searchParams] = useSearchParams();
@@ -35,16 +37,22 @@ const Login = () => {
                     navigation("/");
                 }
             })
-            .catch(() => {
+            .catch((error) => {
                 setIsSubmitting(false);
+                setErrorMessage(error?.response.message || "Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.");
             });
     };
+
+    useEffect(() => {
+        setErrorMessage("");
+    }, [username]);
 
     return (
         <div className="flex items-center justify-center w-screen h-screen">
             <div className="w-full max-w-sm p-4 bg-white border border-gray-200 shadow-md shadow-gray-100 rounded-xl sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     <h5 className="text-xl font-medium text-gray-900 dark:text-white">Đăng nhập</h5>
+                    {errorMessage && <Alert title={errorMessage} type="error" />}
                     <Input
                         label="Username"
                         id="username"

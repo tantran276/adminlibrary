@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { bookAPI } from "../../apis";
 import Button from "../Common/Components/Button/Button";
+import DeleteConfirmModal from "../Common/Components/Modal/DeleteConfirmModal";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helpers";
 import ModifyModal from "./Components/ModifyModal";
@@ -140,6 +141,7 @@ const BookManagement = () => {
                 onClose={setIsShownModifyModal}
                 onSubmit={handleSubmitModifyForm}
             />
+            <DeleteConfirmModal open onClose={() => {}} />
         </>
     );
 };
