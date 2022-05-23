@@ -52,7 +52,7 @@ const Login = () => {
             <div className="w-full max-w-sm p-4 bg-white border border-gray-200 shadow-md shadow-gray-100 rounded-xl sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     <h5 className="text-xl font-medium text-gray-900 dark:text-white">Đăng nhập</h5>
-                    {errorMessage && <Alert title={errorMessage} type="error" />}
+                    {errorMessage && <Alert title={errorMessage || ""} type="error" />}
                     <Input
                         label="Username"
                         id="username"

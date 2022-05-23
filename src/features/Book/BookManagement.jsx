@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { bookAPI } from "../../services";
 import Button from "../Common/Components/Button/Button";
-import DeleteConfirmModal from "../Common/Components/Modal/DeleteConfirmModal";
+import DeleteConfirmModal from "../Common/Components/Modal/ConfirmModal";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helpers";
 import ModifyModal from "./Components/ModifyModal";
@@ -10,7 +10,9 @@ import TableRowActions from "./Components/TableRowActions";
 const BookManagement = () => {
     const [books, setBooks] = useState([]);
     const [isShownModifyModal, setIsShownModifyModal] = useState(false);
+    const [isShowConfirmModal, setIsShowConfirmModal] = useState(false);
     const [selectedToModify, setSelectedToModify] = useState({});
+    const [selectedToDelete, setSelectedToDelete] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [perPage] = useState(10);
@@ -61,7 +63,8 @@ const BookManagement = () => {
             setIsShownModifyModal(true);
             setSelectedToModify(book);
         } else if (action === "delete") {
-            // Handle Delete
+            setIsShowConfirmModal(true);
+            setSelectedToDelete(book);
         }
     };
 
@@ -107,6 +110,19 @@ const BookManagement = () => {
         setIsShownModifyModal(true);
     };
 
+    const handleConfirmDelete = (onSuccess, onError) => {
+        bookAPI
+            .deleteBookById(selectedToDelete.id)
+            .then(() => {
+                getBookList();
+                setIsShowConfirmModal(false);
+                onSuccess();
+            })
+            .catch((error) => {
+                onError(error?.response?.message || "Something went wrong! Please try again later.");
+            });
+    };
+
     useEffect(() => {
         setDocumentTitle("Book Management");
     }, []);
@@ -141,7 +157,14 @@ const BookManagement = () => {
                 onClose={setIsShownModifyModal}
                 onSubmit={handleSubmitModifyForm}
             />
-            <DeleteConfirmModal open onClose={() => {}} />
+            <DeleteConfirmModal
+                title={`Xoá "${selectedToDelete.title}"?`}
+                data={selectedToDelete}
+                description="Bạn có chắc muốn xoá sách này không? Thao tác này không thể hoàn tác."
+                open={isShowConfirmModal}
+                onConfirm={handleConfirmDelete}
+                onClose={setIsShowConfirmModal}
+            />
         </>
     );
 };

@@ -29,4 +29,9 @@ const updateBook = async (data) => {
     return data;
 };
 
-export { getBooks, createBook, updateBook };
+const deleteBookById = async (id) => {
+    const response = await axiosInstance.delete(`api/books/${id}`);
+    return response.data;
+};
+
+export { getBooks, createBook, updateBook, deleteBookById };
