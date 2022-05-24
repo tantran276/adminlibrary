@@ -18,8 +18,8 @@ const ImageInputPlaceholder = ({ multiple = false, collapsed = false }) => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center p-10">
-            <BsImages size={60} className="text-gray-300" />
+        <div className="flex flex-col items-center justify-center p-6">
+            <BsImages size={40} className="text-gray-300" />
             <div className="mt-4 text-gray-400">Nhấn để chọn hình ảnh</div>
         </div>
     );
