@@ -22,4 +22,10 @@ const cancelReservation = async (data) => {
     return data;
 };
 
-export { getAllReserving, renewalReservation, cancelReservation };
+const borrowBook = async (data) => {
+    const url = `/api/reservation/borrow`;
+    await axiosInstance.post(url, data, {});
+    return data;
+};
+
+export { getAllReserving, renewalReservation, cancelReservation, borrowBook };

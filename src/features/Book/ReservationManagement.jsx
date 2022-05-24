@@ -2,9 +2,13 @@ import { useCallback, useEffect, useState } from "react";
 import { reservationAPI } from "../../services";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helpers";
-import TableRowActions from "./Components/TableRowActions";
+import BorrowingRowActions from "./Components/BorrowingRowActions";
+import BorrowModal from "./Components/BorrowModal";
+import Button from "../Common/Components/Button/Button";
 
 const ReservationManagement = () => {
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isShownBorrowModal, setIsShownBorrowModal] = useState(false);
     const [reservations, setReservations] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -62,13 +66,32 @@ const ReservationManagement = () => {
                     reservationDate: item.reservationDate,
                     expirationDate: item.expirationDate,
                     status: item.status,
-                    edit: <TableRowActions id={item} onClick={handleClickEditButton} />,
+                    edit: <BorrowingRowActions id={item} onClick={handleClickEditButton} />,
                 });
             });
             setReservations(standardizedData);
             setTotalPages(responseTotalPages);
         });
     }, [currentPage, perPage]);
+
+    const handleClickAddButton = () => {
+        setErrorMessage("");
+        setIsShownBorrowModal(true);
+    };
+
+    const handleSubmitBorrowForm = (data, onSuccess) => {
+        setErrorMessage("");
+        reservationAPI
+            .borrowBook(data)
+            .then(() => {
+                setIsShownBorrowModal(false);
+                onSuccess();
+                getReservingList();
+            })
+            .catch((error) => {
+                setErrorMessage(error.response.data);
+            });
+    };
 
     useEffect(() => {
         setDocumentTitle("Book Management");
@@ -80,7 +103,10 @@ const ReservationManagement = () => {
 
     return (
         <>
-            <div>Reserving Management</div>
+            <div className="flex items-center justify-between">
+                Reserving Management
+                <Button onClick={handleClickAddButton}>Muon sach</Button>
+            </div>
             <Table
                 columns={columns}
                 dataSource={reservations}
@@ -90,6 +116,12 @@ const ReservationManagement = () => {
                     totalPages,
                     onChangePage: (page) => setCurrentPage(page),
                 }}
+            />
+            <BorrowModal
+                errorMessage={errorMessage}
+                open={isShownBorrowModal}
+                onClose={setIsShownBorrowModal}
+                onSubmit={handleSubmitBorrowForm}
             />
         </>
     );
