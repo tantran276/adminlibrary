@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Button from "../../Common/Components/Button/Button";
+import ImageInput from "../../Common/Components/Input/ImageInput";
 import Input from "../../Common/Components/Input/Input";
 import Modal from "../../Common/Components/Modal/Modal";
 
@@ -33,24 +34,6 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
             setIsSubmitting(false);
         });
     };
-
-    // const validateFormValue = useCallback((data) => {
-    //     let isValid = true;
-
-    //     isValid = Object.keys(data).some((key) => {
-    //         const { value, required } = data[String(key)];
-    //         if (required && !value) {
-    //             return true;
-    //         }
-    //         return false;
-    //     });
-
-    //     return isValid;
-    // }, []);
-
-    // useEffect(() => {
-    //     setIsAllowSubmit(validateFormValue(formValues));
-    // }, [formValues]);
 
     useEffect(() => {
         if (bookData) {
@@ -155,6 +138,12 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
                     onChange={handleChangeInput}
                     name="createDate"
                     required
+                />
+                <ImageInput
+                    label="Ảnh bìa sách"
+                    name="coverImage"
+                    containerClassName="mb-6 col-span-2"
+                    onChange={handleChangeInput}
                 />
                 <Button type="submit" className="w-full col-span-2 mt-2" disabled={isSubmitting && false}>
                     Xác nhận

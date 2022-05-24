@@ -16,5 +16,21 @@ const redirectTo = (path, includeRedirectParam = false) => {
     window.location.href = redirectURL.href;
 };
 
+const generateURLFromFile = (file) => {
+    if (!file) return null;
+    if (file instanceof File) {
+        return URL.createObjectURL(file);
+    }
+    return file;
+};
+
+const generateURLFromFiles = (files) => {
+    if (!files) return [];
+    if (files instanceof FileList) {
+        return Array.from(files).map((file) => generateURLFromFile(file));
+    }
+    return files;
+};
+
 // eslint-disable-next-line import/prefer-default-export
-export { setDocumentTitle, redirectTo };
+export { setDocumentTitle, redirectTo, generateURLFromFile, generateURLFromFiles };
