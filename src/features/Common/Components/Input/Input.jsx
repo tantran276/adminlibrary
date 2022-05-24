@@ -114,10 +114,10 @@ const Input = ({
                 />
             </div>
             {inputValues?.length > 0 && multiple && (
-                <div className="flex items-center justify-start mt-2 space-x-2">
+                <div className="flex flex-wrap items-center justify-start mt-1 -mx-1 -mb-1">
                     {inputValues.map((item, index) => (
                         <div
-                            className="flex items-center justify-center px-2 py-1 text-xs border-2 border-blue-200 rounded-lg bg-blue-50"
+                            className="flex items-center justify-center px-2 py-1 m-1 text-xs border-2 border-blue-200 rounded-lg bg-blue-50"
                             // eslint-disable-next-line react/no-array-index-key
                             key={index}
                             onClick={() => {

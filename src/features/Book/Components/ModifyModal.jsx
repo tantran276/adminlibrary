@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Button from "../../Common/Components/Button/Button";
+import ImageInput from "../../Common/Components/Input/ImageInput";
 import Input from "../../Common/Components/Input/Input";
 import Modal from "../../Common/Components/Modal/Modal";
 
@@ -34,24 +35,6 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
         });
     };
 
-    // const validateFormValue = useCallback((data) => {
-    //     let isValid = true;
-
-    //     isValid = Object.keys(data).some((key) => {
-    //         const { value, required } = data[String(key)];
-    //         if (required && !value) {
-    //             return true;
-    //         }
-    //         return false;
-    //     });
-
-    //     return isValid;
-    // }, []);
-
-    // useEffect(() => {
-    //     setIsAllowSubmit(validateFormValue(formValues));
-    // }, [formValues]);
-
     useEffect(() => {
         if (bookData) {
             setBook(bookData);
@@ -60,7 +43,7 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
     }, [bookData]);
 
     return (
-        <Modal className="p-10 pt-6 pb-10" {...otherProps}>
+        <Modal className="p-10 pt-6 pb-10 sm:max-w-4xl" {...otherProps}>
             <div className="flex items-center justify-between pb-6 border-b-2 border-gray-100">
                 <div className="font-semibold">
                     {book.id ? (
@@ -80,7 +63,7 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
                     <IoClose />
                 </div>
             </div>
-            <form className="grid grid-cols-2 mt-8 gap-x-8" onSubmit={handleSubmitForm}>
+            <form className="grid grid-cols-3 mt-8 gap-x-8" onSubmit={handleSubmitForm}>
                 <Input
                     label="ISBN"
                     containerClassName="mb-6"
@@ -98,8 +81,16 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
                     onChange={handleChangeInput}
                 />
                 <Input
+                    label="Publisher"
+                    containerClassName="mb-6"
+                    value={bookData?.publisher}
+                    name="publisher"
+                    required
+                    onChange={handleChangeInput}
+                />
+                <Input
                     label="Tags"
-                    containerClassName="mb-6 col-span-2"
+                    containerClassName="mb-6 col-start-1"
                     value={bookData?.tags}
                     onChange={handleChangeInput}
                     name="tags"
@@ -108,20 +99,12 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
                 />
                 <Input
                     label="Authors"
-                    containerClassName="mb-6 col-span-2"
+                    containerClassName="mb-6"
                     value={bookData?.authors}
                     onChange={handleChangeInput}
                     name="authors"
                     required
                     multiple
-                />
-                <Input
-                    label="Publisher"
-                    containerClassName="mb-6"
-                    value={bookData?.publisher}
-                    name="publisher"
-                    required
-                    onChange={handleChangeInput}
                 />
                 <Input
                     label="Category"
@@ -148,15 +131,21 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
                     required
                 />
                 <Input
-                    type="date"
                     label="Publish Date"
-                    containerClassName="mb-6 col-span-2"
+                    type="date"
+                    containerClassName="mb-6"
                     value={bookData?.createDate}
                     onChange={handleChangeInput}
                     name="createDate"
                     required
                 />
-                <Button type="submit" className="w-full col-span-2 mt-2" disabled={isSubmitting && false}>
+                <ImageInput
+                    label="Ảnh bìa sách"
+                    name="coverImage"
+                    containerClassName="mb-6 col-span-full"
+                    onChange={handleChangeInput}
+                />
+                <Button type="submit" className="w-full mt-2 col-span-full" disabled={isSubmitting && false}>
                     Xác nhận
                 </Button>
             </form>
