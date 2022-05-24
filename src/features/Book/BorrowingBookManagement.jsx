@@ -3,7 +3,7 @@ import { borrowBookAPI } from "../../services";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helpers";
 
-const BorrowBookManagement = () => {
+const BorrowingBookManagement = () => {
     const [borrowBooks, setBorrowBooks] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -45,7 +45,7 @@ const BorrowBookManagement = () => {
     ];
 
     const getBorrowingBookList = useCallback(() => {
-        borrowBookAPI.getAllBorrowBook(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
+        borrowBookAPI.getAllBorrowingBook(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
             const standardizedData = [];
             content.forEach((item) => {
                 standardizedData.push({
@@ -89,4 +89,4 @@ const BorrowBookManagement = () => {
     );
 };
 
-export default BorrowBookManagement;
+export default BorrowingBookManagement;
