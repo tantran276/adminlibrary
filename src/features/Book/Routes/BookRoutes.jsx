@@ -4,6 +4,7 @@ import BookManagement from "../BookManagement";
 import BorrowingBookManagement from "../BorrowingBookManagement";
 import CopyManagement from "../CopyManagement";
 import ReservationManagement from "../ReservationManagement";
+import BorrowedBookManagement from "../BorrowedBookManagement";
 
 const BookRoutes = () => {
     return (
@@ -13,6 +14,7 @@ const BookRoutes = () => {
                 <Route path="books" index element={<BookManagement />} />
                 <Route path="reservations" index element={<ReservationManagement />} />
                 <Route path="borrowing" index element={<BorrowingBookManagement />} />
+                <Route path="borrowed" index element={<BorrowedBookManagement />} />
             </Routes>
         </Layout>
     );

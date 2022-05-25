@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import { reservationAPI } from "../../services";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helpers";
-import BorrowingRowActions from "./Components/BorrowingRowActions";
 import BorrowModal from "./Components/BorrowModal";
 import Button from "../Common/Components/Button/Button";
+import ReservingRowActions from "./Components/ReservingRowActions";
 
 const ReservationManagement = () => {
     const [errorMessage, setErrorMessage] = useState("");
@@ -48,7 +48,9 @@ const ReservationManagement = () => {
 
     const handleClickEditButton = (action, reservation) => {
         if (!reservation) return;
-        if (action === "renewal") {
+        if (action === "accept") {
+            reservationAPI.acceptReservation(reservation).then(() => {});
+        } else if (action === "renewal") {
             reservationAPI.renewalReservation(reservation).then(() => {});
         } else if (action === "cancel") {
             reservationAPI.cancelReservation(reservation).then(() => {});
@@ -66,7 +68,7 @@ const ReservationManagement = () => {
                     reservationDate: item.reservationDate,
                     expirationDate: item.expirationDate,
                     status: item.status,
-                    edit: <BorrowingRowActions id={item} onClick={handleClickEditButton} />,
+                    edit: <ReservingRowActions id={item} onClick={handleClickEditButton} />,
                 });
             });
             setReservations(standardizedData);

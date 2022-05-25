@@ -22,10 +22,16 @@ const cancelReservation = async (data) => {
     return data;
 };
 
+const acceptReservation = async (data) => {
+    const url = `api/reservation/accept/${data.id}`;
+    await axiosInstance.put(url, {});
+    return data;
+};
+
 const borrowBook = async (data) => {
     const url = `/api/reservation/borrow`;
     await axiosInstance.post(url, data, {});
     return data;
 };
 
-export { getAllReserving, renewalReservation, cancelReservation, borrowBook };
+export { getAllReserving, renewalReservation, cancelReservation, borrowBook, acceptReservation };

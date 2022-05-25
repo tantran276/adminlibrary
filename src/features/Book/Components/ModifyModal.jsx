@@ -141,7 +141,7 @@ const ModifyModal = ({ book: bookData, onSubmit, onClose, ...otherProps }) => {
                 />
                 <ImageInput
                     label="Ảnh bìa sách"
-                    name="coverImage"
+                    name="image"
                     containerClassName="mb-6 col-span-full"
                     onChange={handleChangeInput}
                 />

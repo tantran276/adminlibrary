@@ -22,10 +22,13 @@ const BookManagement = () => {
             title: "ID",
             dataIndex: "id",
         },
-
         {
             title: "ISBN",
             dataIndex: "isbn",
+        },
+        {
+            title: "Ảnh",
+            dataIndex: "image",
         },
         {
             title: "Title",
@@ -75,6 +78,9 @@ const BookManagement = () => {
                 standardizedData.push({
                     id: item.id,
                     isbn: item.isbn,
+                    image: (
+                        <img src={`${process.env.REACT_APP_API_URL}/api/books/image/${item.isbn}`} alt={item.isbn} />
+                    ),
                     title: item.title,
                     authors: item.authors.join(", "),
                     publisher: item.publisher,
@@ -96,11 +102,17 @@ const BookManagement = () => {
                 setIsShownModifyModal(false);
                 onSuccess();
             });
+            if (data.image) {
+                bookAPI.updateImage(data.isbn, data.file);
+            }
             return;
         }
         bookAPI.createBook(data).then(() => {
             onSuccess();
             setIsShownModifyModal(false);
+            if (data.image) {
+                bookAPI.updateImage(data.isbn, data.file);
+            }
             getBookList();
         });
     };

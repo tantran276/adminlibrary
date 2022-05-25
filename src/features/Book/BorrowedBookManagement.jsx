@@ -3,7 +3,7 @@ import { borrowBookAPI } from "../../services";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helpers";
 
-const BorrowingBookManagement = () => {
+const BorrowedBookManagement = () => {
     const [borrowBooks, setBorrowBooks] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -42,17 +42,10 @@ const BorrowingBookManagement = () => {
             title: "Status",
             dataIndex: "status",
         },
-        {
-            title: "",
-            dataIndex: "edit",
-        },
     ];
 
-    const handleReturnBook = (item) => {
-        borrowBookAPI.returnBorrowBook(item);
-    };
-    const getBorrowingBookList = useCallback(() => {
-        borrowBookAPI.getAllBorrowingBook(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
+    const getBorrowBookList = useCallback(() => {
+        borrowBookAPI.getAllBorrowBook(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
             const standardizedData = [];
             content.forEach((item) => {
                 standardizedData.push({
@@ -64,16 +57,6 @@ const BorrowingBookManagement = () => {
                     returnDate: item.returnDate,
                     penalty: item.penalty,
                     status: item.status,
-                    edit: (
-                        <div
-                            className="text-blue-500 cursor-pointer font-semibold"
-                            onClick={() => handleReturnBook(item)}
-                            role="button"
-                            tabIndex={0}
-                        >
-                            Return
-                        </div>
-                    ),
                 });
             });
             setBorrowBooks(standardizedData);
@@ -86,7 +69,7 @@ const BorrowingBookManagement = () => {
     }, []);
 
     useEffect(() => {
-        getBorrowingBookList();
+        getBorrowBookList();
     }, []);
 
     return (
@@ -106,4 +89,4 @@ const BorrowingBookManagement = () => {
     );
 };
 
-export default BorrowingBookManagement;
+export default BorrowedBookManagement;

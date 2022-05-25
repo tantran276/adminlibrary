@@ -15,6 +15,7 @@ const Sidebar = () => {
                     <SidebarItem label="Quản lý người dùng" icon={<BiUserCircle />} to="/users" />
                     <SidebarItem label="Quản lý đăng ký mượn sách" icon={<BiUserCircle />} to="/books/reservations" />
                     <SidebarItem label="Quản lý sách đang mượn" icon={<BiUserCircle />} to="/books/borrowing" />
+                    <SidebarItem label="Xem sách lịch sử mượn" icon={<BiUserCircle />} to="/books/borrowed" />
                 </SidebarMenu>
             </div>
         </aside>

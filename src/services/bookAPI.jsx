@@ -34,4 +34,11 @@ const deleteBookById = async (id) => {
     return response.data;
 };
 
-export { getBooks, createBook, updateBook, deleteBookById };
+const updateImage = async (isbn, image) => {
+    const data = new FormData();
+    data.append(image);
+    const response = await axiosInstance.put(`api/books/${isbn}`, data);
+    return response.data;
+};
+
+export { getBooks, createBook, updateBook, deleteBookById, updateImage };
