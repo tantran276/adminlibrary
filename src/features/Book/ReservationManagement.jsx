@@ -5,6 +5,7 @@ import { setDocumentTitle } from "../Common/Utils/helpers";
 import BorrowModal from "./Components/BorrowModal";
 import Button from "../Common/Components/Button/Button";
 import ReservingRowActions from "./Components/ReservingRowActions";
+import DeleteConfirmModal from "../Common/Components/Modal/ConfirmModal";
 
 const ReservationManagement = () => {
     const [errorMessage, setErrorMessage] = useState("");
@@ -13,6 +14,9 @@ const ReservationManagement = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [perPage] = useState(10);
+    const [isShowConfirmModal, setIsShowConfirmModal] = useState(false);
+    const [selectedToDelete, setSelectedToDelete] = useState({});
+    const [actionModal, setActionModal] = useState("");
 
     const columns = [
         {
@@ -47,14 +51,9 @@ const ReservationManagement = () => {
     ];
 
     const handleClickEditButton = (action, reservation) => {
-        if (!reservation) return;
-        if (action === "accept") {
-            reservationAPI.acceptReservation(reservation).then(() => {});
-        } else if (action === "renewal") {
-            reservationAPI.renewalReservation(reservation).then(() => {});
-        } else if (action === "cancel") {
-            reservationAPI.cancelReservation(reservation).then(() => {});
-        }
+        setActionModal(action);
+        setIsShowConfirmModal(true);
+        setSelectedToDelete(reservation);
     };
 
     const getReservingList = useCallback(() => {
@@ -95,6 +94,42 @@ const ReservationManagement = () => {
             });
     };
 
+    const handleConfirmDelete = (onSuccess, onError) => {
+        if (actionModal === "accept") {
+            reservationAPI
+                .acceptReservation(selectedToDelete)
+                .then(() => {
+                    getReservingList();
+                    setIsShowConfirmModal(false);
+                    onSuccess();
+                })
+                .catch((error) => {
+                    onError(error?.response?.message || "Something went wrong! Please try again later.");
+                });
+        } else if (actionModal === "renewal") {
+            reservationAPI
+                .renewalReservation(selectedToDelete)
+                .then(() => {
+                    getReservingList();
+                    setIsShowConfirmModal(false);
+                    onSuccess();
+                })
+                .catch((error) => {
+                    onError(error?.response?.message || "Something went wrong! Please try again later.");
+                });
+        } else if (actionModal === "cancel") {
+            reservationAPI
+                .cancelReservation(selectedToDelete)
+                .then(() => {
+                    getReservingList();
+                    setIsShowConfirmModal(false);
+                    onSuccess();
+                })
+                .catch((error) => {
+                    onError(error?.response?.message || "Something went wrong! Please try again later.");
+                });
+        }
+    };
     useEffect(() => {
         setDocumentTitle("Book Management");
     }, []);
@@ -124,6 +159,14 @@ const ReservationManagement = () => {
                 open={isShownBorrowModal}
                 onClose={setIsShownBorrowModal}
                 onSubmit={handleSubmitBorrowForm}
+            />
+            <DeleteConfirmModal
+                title="Xử lý thao tác ?"
+                data={selectedToDelete}
+                description="Bạn có chắc thực hiện thao tác này không? Thao tác này không thể hoàn tác."
+                open={isShowConfirmModal}
+                onConfirm={handleConfirmDelete}
+                onClose={setIsShowConfirmModal}
             />
         </>
     );

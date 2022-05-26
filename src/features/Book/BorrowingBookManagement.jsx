@@ -2,12 +2,15 @@ import { useCallback, useEffect, useState } from "react";
 import { borrowBookAPI } from "../../services";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helpers";
+import DeleteConfirmModal from "../Common/Components/Modal/ConfirmModal";
 
 const BorrowingBookManagement = () => {
     const [borrowBooks, setBorrowBooks] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [perPage] = useState(10);
+    const [isShowConfirmModal, setIsShowConfirmModal] = useState(false);
+    const [selectedToReturn, setSelectedToReturn] = useState({});
 
     const columns = [
         {
@@ -49,7 +52,8 @@ const BorrowingBookManagement = () => {
     ];
 
     const handleReturnBook = (item) => {
-        borrowBookAPI.returnBorrowBook(item);
+        setIsShowConfirmModal(true);
+        setSelectedToReturn(item);
     };
     const getBorrowingBookList = useCallback(() => {
         borrowBookAPI.getAllBorrowingBook(currentPage, perPage).then(({ content, totalPages: responseTotalPages }) => {
@@ -81,6 +85,19 @@ const BorrowingBookManagement = () => {
         });
     }, [currentPage, perPage]);
 
+    const handleConfirmDelete = (onSuccess, onError) => {
+        borrowBookAPI
+            .returnBorrowBook(selectedToReturn)
+            .then(() => {
+                getBorrowingBookList();
+                setIsShowConfirmModal(false);
+                onSuccess();
+            })
+            .catch((error) => {
+                onError(error?.response?.message || "Something went wrong! Please try again later.");
+            });
+    };
+
     useEffect(() => {
         setDocumentTitle("Book Management");
     }, []);
@@ -101,6 +118,14 @@ const BorrowingBookManagement = () => {
                     totalPages,
                     onChangePage: (page) => setCurrentPage(page),
                 }}
+            />
+            <DeleteConfirmModal
+                title={`Trả sách "${selectedToReturn.title}"?`}
+                data={selectedToReturn}
+                description="Bạn có chắc muốn trả sách này không? Thao tác này không thể hoàn tác."
+                open={isShowConfirmModal}
+                onConfirm={handleConfirmDelete}
+                onClose={setIsShowConfirmModal}
             />
         </>
     );
