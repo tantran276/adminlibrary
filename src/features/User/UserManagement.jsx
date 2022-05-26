@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { userAPI } from "../../services";
+import DeleteConfirmModal from "../Common/Components/Modal/ConfirmModal";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helpers";
 import TableRowActions from "./Components/TableRowActions";
@@ -9,6 +10,8 @@ const UserManagement = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [perPage] = useState(10);
+    const [isShowConfirmModal, setIsShowConfirmModal] = useState(false);
+    const [selectedToDelete, setSelectedToDelete] = useState({});
 
     const columns = [
         {
@@ -56,7 +59,8 @@ const UserManagement = () => {
     const handleClickEditButton = (action, user) => {
         if (!user) return;
         if (action === "delete") {
-            userAPI.deleteUser(user).then(() => {});
+            setSelectedToDelete(user);
+            setIsShowConfirmModal(true);
         }
     };
 
@@ -81,6 +85,17 @@ const UserManagement = () => {
             setTotalPages(responseTotalPages);
         });
     }, [currentPage, perPage]);
+
+    const handleConfirmDelete = useCallback((onSuccess, onError) => {
+        userAPI
+            .deleteUser(selectedToDelete)
+            .then(() => {
+                getUserList();
+                setIsShowConfirmModal(false);
+                onSuccess();
+            })
+            .catch(onError);
+    });
 
     useEffect(() => {
         setDocumentTitle("User Management");
@@ -108,6 +123,14 @@ const UserManagement = () => {
                     totalPages,
                     onChangePage: (page) => setCurrentPage(page),
                 }}
+            />
+            <DeleteConfirmModal
+                title={`Xoá "${selectedToDelete.firstName} ${selectedToDelete.lastName}"?`}
+                data={selectedToDelete}
+                description="Bạn có chắc muốn xoá sách này không? Thao tác này không thể hoàn tác."
+                open={isShowConfirmModal}
+                onConfirm={handleConfirmDelete}
+                onClose={setIsShowConfirmModal}
             />
         </>
     );

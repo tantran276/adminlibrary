@@ -18,7 +18,7 @@ const DeleteConfirmModal = ({ title, open, description, onConfirm, onClose, ...o
             },
             (error) => {
                 setIsSubmitting(false);
-                setErrorMessage(error);
+                setErrorMessage(error.response.message);
             }
         );
     };
