@@ -36,8 +36,8 @@ const deleteBookById = async (id) => {
 
 const updateImage = async (isbn, image) => {
     const data = new FormData();
-    data.append(image);
-    const response = await axiosInstance.put(`api/books/${isbn}`, data);
+    data.append("file", image);
+    const response = await axiosInstance.put(`api/books/image/${isbn}`, data);
     return response.data;
 };
 

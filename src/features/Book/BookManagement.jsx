@@ -102,16 +102,17 @@ const BookManagement = () => {
                 setIsShownModifyModal(false);
                 onSuccess();
             });
-            if (data.image) {
-                bookAPI.updateImage(data.isbn, data.file);
+            if (data.image[0]) {
+                bookAPI.updateImage(data.isbn, data.image[0]);
             }
             return;
         }
         bookAPI.createBook(data).then(() => {
             onSuccess();
             setIsShownModifyModal(false);
-            if (data.image) {
-                bookAPI.updateImage(data.isbn, data.file);
+            if (data.image[0]) {
+                bookAPI.updateImage(data.isbn, data.image[0]).then(getBookList());
+                return;
             }
             getBookList();
         });
@@ -137,10 +138,6 @@ const BookManagement = () => {
 
     useEffect(() => {
         setDocumentTitle("Book Management");
-    }, []);
-
-    useEffect(() => {
-        getBookList();
     }, []);
 
     useEffect(() => {
