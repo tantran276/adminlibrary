@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IoClose, IoTrashOutline } from "react-icons/io5";
 import Alert from "../Alert/Alert";
 import Button from "../Button/Button";
@@ -8,6 +8,15 @@ import Modal from "./Modal";
 const DeleteConfirmModal = ({ title, open, description, onConfirm, onClose, ...otherProps }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+
+    const resetComponent = useCallback(() => {
+        setIsSubmitting(false);
+        setErrorMessage("");
+    }, []);
+
+    useEffect(() => {
+        resetComponent();
+    }, [open]);
 
     const handleClickConfirmButton = () => {
         setIsSubmitting(true);
