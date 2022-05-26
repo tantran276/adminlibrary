@@ -132,7 +132,7 @@ const BookManagement = () => {
                 onSuccess();
             })
             .catch((error) => {
-                onError(error?.response?.message || "Something went wrong! Please try again later.");
+                onError(error?.response?.data || "Something went wrong! Please try again later.");
             });
     };
 
