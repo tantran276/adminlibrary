@@ -15,6 +15,9 @@ const storage = {
         data[String(key)] = value;
         localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(data));
     },
+    clear: () => {
+        localStorage.removeItem(LOCAL_STORAGE_NAME);
+    },
 };
 
 export default storage;
