@@ -15,7 +15,11 @@ export const loginWithUsernameAndPassword = async (username, password) => {
     return response.data;
 };
 
-export const getMe = async () => {
-    const response = await axiosInstance.get("api/users/me");
+export const getMe = async (token) => {
+    const response = await axiosInstance.get("api/users/me", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
     return response.data;
 };

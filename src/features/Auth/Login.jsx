@@ -27,14 +27,14 @@ const Login = () => {
             .then((userData) => {
                 const { token } = userData;
                 storage.set("token", token);
-                return authAPI.getMe();
+                return authAPI.getMe(token);
             })
             .then((userData) => {
                 dispatch(setUser(userData));
                 if (redirectURL) {
                     navigation(redirectURL, { replace: true });
                 } else {
-                    navigation("/");
+                    navigation("/books/books");
                 }
             })
             .catch((error) => {
