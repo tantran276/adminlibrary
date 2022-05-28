@@ -10,8 +10,15 @@ const createAxiosInstance = () => {
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            Authorization: `Bearer ${storage.get("token")}`,
         },
+    });
+
+    instance.interceptors.request.use((request) => {
+        const token = storage.get("token");
+        if (token) {
+            request.headers.Authorization = `Bearer ${token}`;
+        }
+        return request;
     });
 
     instance.interceptors.response.use(
