@@ -27,7 +27,7 @@ const Login = () => {
             .then((userData) => {
                 const { token } = userData;
                 storage.set("token", token);
-                return authAPI.getMe(token);
+                return authAPI.getMe();
             })
             .then((userData) => {
                 dispatch(setUser(userData));
