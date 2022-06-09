@@ -4,6 +4,7 @@ import DeleteConfirmModal from "../Common/Components/Modal/ConfirmModal";
 import Table from "../Common/Components/Table/Table";
 import { setDocumentTitle } from "../Common/Utils/helpers";
 import TableRowActions from "./Components/TableRowActions";
+import ModifyModal from "./Components/ModifyModal";
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -12,6 +13,8 @@ const UserManagement = () => {
     const [perPage] = useState(10);
     const [isShowConfirmModal, setIsShowConfirmModal] = useState(false);
     const [selectedToDelete, setSelectedToDelete] = useState({});
+    const [isShownModifyModal, setIsShownModifyModal] = useState(false);
+    const [selectedToModify, setSelectedToModify] = useState({});
 
     const columns = [
         {
@@ -55,12 +58,15 @@ const UserManagement = () => {
             dataIndex: "edit",
         },
     ];
-
     const handleClickEditButton = (action, user) => {
         if (!user) return;
         if (action === "delete") {
             setSelectedToDelete(user);
             setIsShowConfirmModal(true);
+        }
+        if (action === "edit") {
+            setSelectedToModify(user);
+            setIsShownModifyModal(true);
         }
     };
 
@@ -85,6 +91,16 @@ const UserManagement = () => {
             setTotalPages(responseTotalPages);
         });
     }, [currentPage, perPage]);
+
+    const handleSubmitModifyForm = (action, data, onSuccess) => {
+        if (action === "edit") {
+            userAPI.updateUser(data).then(() => {
+                getUserList();
+                setIsShownModifyModal(false);
+                onSuccess();
+            });
+        }
+    };
 
     const handleConfirmDelete = useCallback((onSuccess, onError) => {
         userAPI
@@ -123,6 +139,12 @@ const UserManagement = () => {
                     totalPages,
                     onChangePage: (page) => setCurrentPage(page),
                 }}
+            />
+            <ModifyModal
+                open={isShownModifyModal}
+                user={selectedToModify}
+                onClose={setIsShownModifyModal}
+                onSubmit={handleSubmitModifyForm}
             />
             <DeleteConfirmModal
                 title={`Xoá "${selectedToDelete.firstName} ${selectedToDelete.lastName}"?`}

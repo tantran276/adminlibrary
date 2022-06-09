@@ -8,6 +8,14 @@ const TableRowActions = ({ id, onClick }) => {
     return (
         <div className="flex items-center justify-end space-x-4">
             <div
+                className="text-blue-500 cursor-pointer font-semibold"
+                onClick={() => handleClick("edit", id)}
+                role="button"
+                tabIndex={0}
+            >
+                Edit
+            </div>
+            <div
                 className="text-red-500 cursor-pointer font-semibold"
                 onClick={() => handleClick("delete", id)}
                 role="button"
