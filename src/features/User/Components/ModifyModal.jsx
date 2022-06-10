@@ -55,10 +55,10 @@ const ModifyModal = ({ user: userData, onSubmit, onClose, ...otherProps }) => {
     useEffect(() => {
         if (userData) {
             setUser(userData);
+        } else {
+            setUser({});
         }
-        setUser({});
     }, [userData]);
-    console.log(user);
     return (
         <Modal className="p-10 pt-6 pb-10" {...otherProps}>
             <div className="flex items-center justify-between pb-6 border-b-2 border-gray-100">
@@ -68,7 +68,7 @@ const ModifyModal = ({ user: userData, onSubmit, onClose, ...otherProps }) => {
                             Sửa tai khoan <span>#{user.id}</span>
                         </div>
                     ) : (
-                        "Thêm tai khoan"
+                        "Sua tai khoan"
                     )}
                 </div>
                 <div
@@ -81,6 +81,15 @@ const ModifyModal = ({ user: userData, onSubmit, onClose, ...otherProps }) => {
                 </div>
             </div>
             <form className="grid grid-cols-2 mt-8 gap-x-8" onSubmit={handleSubmitForm}>
+                <Input
+                    label="Id"
+                    containerClassName="mb-6 col-span-2"
+                    value={userData?.id}
+                    name="id"
+                    required
+                    onChange={handleChangeInput}
+                    readOnly
+                />
                 <Input
                     label="First Name"
                     containerClassName="mb-6"
@@ -109,7 +118,7 @@ const ModifyModal = ({ user: userData, onSubmit, onClose, ...otherProps }) => {
                     type="date"
                     label="Date Of Birth"
                     containerClassName="mb-6 col-span-2"
-                    value={userData?.publisher}
+                    value={userData?.dateOfBirth}
                     name="dateOfBirth"
                     required
                     onChange={handleChangeInput}
