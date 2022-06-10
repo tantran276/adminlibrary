@@ -17,10 +17,19 @@ const updateUser = async (data) => {
     return data;
 };
 
+const getAnalyticsByMonth = async (month, year) => {
+    return axiosInstance.get("api/users/userinmonth", {
+        params: {
+            month,
+            year,
+        },
+    });
+};
+
 const deleteUser = async (data) => {
     const url = `api/users/${data.id}`;
     await axiosInstance.delete(url, {});
     return data;
 };
 
-export { getUsers, updateUser, deleteUser };
+export { getUsers, updateUser, deleteUser, getAnalyticsByMonth };
