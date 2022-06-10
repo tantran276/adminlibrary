@@ -30,7 +30,7 @@ const UserAnalyticsByMonth = () => {
     return (
         <div className="p-6 mt-6 border-2 border-gray-100 rounded-lg shadow-md shadow-gray-100">
             <div className="flex items-center justify-between">
-                <div className="font-semibold">Người dùng trong tháng</div>
+                <div className="font-semibold">Người dùng mới trong tháng</div>
                 <DatePicker
                     month={selectedMonth}
                     year={selectedYear}

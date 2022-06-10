@@ -53,4 +53,8 @@ const getAnalyticsByMonth = async (month, year) => {
     });
 };
 
-export { getBooks, createBook, updateBook, deleteBookById, updateImage, getAnalyticsByMonth };
+const getLifetimeAnalytics = async () => {
+    return axiosInstance.get("api/books/count");
+};
+
+export { getBooks, createBook, updateBook, deleteBookById, updateImage, getAnalyticsByMonth, getLifetimeAnalytics };
