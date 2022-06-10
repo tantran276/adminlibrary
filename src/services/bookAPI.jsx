@@ -41,4 +41,16 @@ const updateImage = async (isbn, image) => {
     return response.data;
 };
 
-export { getBooks, createBook, updateBook, deleteBookById, updateImage };
+const getAnalyticsByMonth = async (month, year) => {
+    const startDate = `${year}-${month}-01`;
+    const endDate = dayjs(startDate).add(dayjs(startDate).daysInMonth(), "day").format("YYYY-MM-DD");
+
+    return axiosInstance.get("api/borrowbook/countformonth", {
+        params: {
+            from: startDate,
+            to: endDate,
+        },
+    });
+};
+
+export { getBooks, createBook, updateBook, deleteBookById, updateImage, getAnalyticsByMonth };
