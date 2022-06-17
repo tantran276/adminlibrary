@@ -1,14 +1,17 @@
 import { Book, Profile2User } from "iconsax-react";
 import { useEffect, useState } from "react";
-import { bookAPI } from "../../../services";
+import { bookAPI, userAPI } from "../../../services";
 import OverviewItem from "./OverviewItem";
 
 const Overview = () => {
     const [bookData, setBookData] = useState();
-
+    const [countUser, setCountUser] = useState(0);
     useEffect(() => {
         bookAPI.getLifetimeAnalytics().then((data) => {
             setBookData(data.data);
+        });
+        userAPI.countUsers().then((response) => {
+            setCountUser(response.data);
         });
     }, []);
 
@@ -16,17 +19,8 @@ const Overview = () => {
         <div className="grid grid-cols-3 gap-x-6">
             <OverviewItem
                 title="Người dùng"
+                number={countUser}
                 icon={<Profile2User size="60" variant="Bulk" className="text-blue-500" />}
-                description={[
-                    {
-                        title: "Đang hoạt động",
-                        className: "bg-blue-500",
-                    },
-                    {
-                        title: "Ngừng hoạt động",
-                        className: "bg-blue-500 bg-opacity-40",
-                    },
-                ]}
             />
             <OverviewItem
                 title="Sách"

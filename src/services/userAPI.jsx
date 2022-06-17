@@ -10,6 +10,10 @@ const getUsers = async (page, perPage) => {
     return response.data;
 };
 
+const countUsers = async () => {
+    return axiosInstance.get("api/users/count");
+};
+
 const updateUser = async (data) => {
     await axiosInstance.put("api/users", {
         ...data,
@@ -32,4 +36,4 @@ const deleteUser = async (data) => {
     return data;
 };
 
-export { getUsers, updateUser, deleteUser, getAnalyticsByMonth };
+export { getUsers, updateUser, deleteUser, getAnalyticsByMonth, countUsers };
