@@ -11,8 +11,10 @@ const BookManagement = () => {
     const [books, setBooks] = useState([]);
     const [isShownModifyModal, setIsShownModifyModal] = useState(false);
     const [isShowConfirmModal, setIsShowConfirmModal] = useState(false);
+    const [isShowConfirmAddAvailableModal, setIsShowConfirmAddModal] = useState(false);
     const [selectedToModify, setSelectedToModify] = useState({});
     const [selectedToDelete, setSelectedToDelete] = useState({});
+    const [selectedToAddAvailable, setSelectedToAddAvailable] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [perPage] = useState(10);
@@ -68,6 +70,9 @@ const BookManagement = () => {
         } else if (action === "delete") {
             setIsShowConfirmModal(true);
             setSelectedToDelete(book);
+        } else if (action === "addavailable") {
+            setIsShowConfirmAddModal(true);
+            setSelectedToAddAvailable(book);
         }
     };
 
@@ -105,17 +110,16 @@ const BookManagement = () => {
             if (data.image[0]) {
                 bookAPI.updateImage(data.isbn, data.image[0]);
             }
-            return;
+        } else if (action === "create") {
+            bookAPI.createBook(data).then(() => {
+                onSuccess();
+                setIsShownModifyModal(false);
+                if (data.image[0]) {
+                    bookAPI.updateImage(data.isbn, data.image[0]).then(getBookList());
+                }
+                getBookList();
+            });
         }
-        bookAPI.createBook(data).then(() => {
-            onSuccess();
-            setIsShownModifyModal(false);
-            if (data.image[0]) {
-                bookAPI.updateImage(data.isbn, data.image[0]).then(getBookList());
-                return;
-            }
-            getBookList();
-        });
     };
 
     const handleClickAddButton = () => {
@@ -129,6 +133,19 @@ const BookManagement = () => {
             .then(() => {
                 getBookList();
                 setIsShowConfirmModal(false);
+                onSuccess();
+            })
+            .catch((error) => {
+                onError(error?.response?.data || "Something went wrong! Please try again later.");
+            });
+    };
+
+    const handleConfirmAddAvailable = (onSuccess, onError) => {
+        bookAPI
+            .createAvailableBook(selectedToAddAvailable)
+            .then(() => {
+                getBookList();
+                setIsShowConfirmAddModal(false);
                 onSuccess();
             })
             .catch((error) => {
@@ -173,6 +190,14 @@ const BookManagement = () => {
                 open={isShowConfirmModal}
                 onConfirm={handleConfirmDelete}
                 onClose={setIsShowConfirmModal}
+            />
+            <DeleteConfirmModal
+                title={`Thêm "${selectedToAddAvailable.title}"?`}
+                data={selectedToAddAvailable}
+                description="Bạn có chắc muốn thêm sách này không? Thao tác này không thể hoàn tác."
+                open={isShowConfirmAddAvailableModal}
+                onConfirm={handleConfirmAddAvailable}
+                onClose={setIsShowConfirmAddModal}
             />
         </>
     );

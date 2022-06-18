@@ -9,6 +9,14 @@ const TableRowActions = ({ id, onClick }) => {
         <div className="flex items-center justify-end space-x-4">
             <div
                 className="text-blue-500 cursor-pointer font-semibold"
+                onClick={() => handleClick("addavailable", id)}
+                role="button"
+                tabIndex={0}
+            >
+                Add Available
+            </div>
+            <div
+                className="text-blue-500 cursor-pointer font-semibold"
                 onClick={() => handleClick("edit", id)}
                 role="button"
                 tabIndex={0}

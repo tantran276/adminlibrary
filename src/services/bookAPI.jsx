@@ -20,6 +20,21 @@ const createBook = async (data) => {
     return data;
 };
 
+const createAvailableBook = async (data) => {
+    await axiosInstance.post("api/books", {
+        ...data,
+        isbn: String(data.isbn),
+        title: String(data.title),
+        tags: data.tags,
+        authors: data.authors,
+        publisher: String(data.publisher),
+        content: String(data.content),
+        price: Number(data.price),
+        createDate: dayjs().format("YYYY-MM-DD"),
+    });
+    return data;
+};
+
 const updateBook = async (data) => {
     await axiosInstance.put("api/books", {
         ...data,
@@ -57,4 +72,13 @@ const getLifetimeAnalytics = async () => {
     return axiosInstance.get("api/books/count");
 };
 
-export { getBooks, createBook, updateBook, deleteBookById, updateImage, getAnalyticsByMonth, getLifetimeAnalytics };
+export {
+    getBooks,
+    createBook,
+    updateBook,
+    deleteBookById,
+    updateImage,
+    getAnalyticsByMonth,
+    getLifetimeAnalytics,
+    createAvailableBook,
+};
